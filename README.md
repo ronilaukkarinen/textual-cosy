@@ -1,7 +1,7 @@
-Sulaco Textual Style
+Cosy Textual Style
 ====================
 
-Sulaco is a dark theme for the [Textual IRC client](https://www.codeux.com/textual/). Based slightly to [Sulaco](https://github.com/rgrove/textual-sulaco). As usual, I needed something different.
+Cosy is a dark theme for the [Textual IRC client](https://www.codeux.com/textual/). Based slightly to [Sulaco](https://github.com/rgrove/textual-sulaco). As usual, I needed something different.
 
 ![Screenshot](https://i.imgur.com/uvDsvXK.png)
 
