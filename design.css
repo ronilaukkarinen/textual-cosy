@@ -1,0 +1,467 @@
+
+/* Inline media */
+
+@import "inlineMedia.css";
+
+/* Basic Structure */
+
+body {
+  background: #1c1f26;
+  color: #cfcfcf;
+  font-family: 'Source Sans Pro', 'Myriad Pro';
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+a {
+  border-bottom: dotted 1px #8cb3ff;
+  color: #8cb3ff;
+  text-decoration: none;
+}
+
+a:hover {
+  border: none;
+  border-bottom: solid 1px #8cb3ff;
+}
+
+#body {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-height: 100%;
+  /* overflow: none is added here, even though it is already
+   declared by body {} because on OS X Mavericks, there is a
+   weird quirk that causes the horizontal slider to appear
+   even though we only ask for the vertical one. */
+  overflow: none;
+  overflow-y: auto;
+  z-index: 100;
+  position: absolute;
+  opacity: 0; /* Set by JavaScript */
+  -webkit-transition: opacity 0.8s linear;
+}
+
+.message,
+.sender,
+.time {
+  padding: 4px 8px 3px;
+}
+
+.message {
+  width: 100%;
+}
+
+.sender,
+.time {
+  flex-shrink: 0;
+  background: #1c1f26;
+}
+
+.sender {
+  font-weight: 600;
+  overflow: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 10em;
+}
+
+body[data-view-type="sender"] .sender {
+  display: none;
+}
+
+.time {
+  color: rgba(136, 136, 136, .2);
+  line-height: 1.8;
+  white-space: nowrap;
+  font-size: .9rem;
+}
+
+div.line {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row;
+  -webkit-flex-flow: row;
+}
+
+div.line[data-member-type="myself"] .sender,
+div.line[data-member-type="myself"] .message,
+div.line[data-member-type="myself"] .time {
+  background: #252933 !important;
+}
+
+div.line[data-line-type="action"] .message,
+div.line[data-line-type="action"] .sender {
+  background: none;
+  font-style: italic;
+}
+
+div.line[data-line-type="action"] .sender {
+  padding-right: 2px;
+}
+
+body[data-view-type="channel"] .event .message {
+  color: #666;
+}
+
+.event .message:before {
+  content: " • ";
+}
+
+body[data-view-type="server"] .event .message {
+  color: #999;
+  font-size: inherit;
+  padding-left: 1em;
+  padding-right: 2em;
+}
+
+body[data-view-type="server"] .event .message:before {
+  content: '';
+}
+
+.event .sender {
+  background: inherit;
+}
+
+div.line.text:hover,
+body[data-view-type="server"] .line:hover {
+  /*outline: 1px solid #666;*/
+}
+
+div.line.text:hover .message,
+div.line.text:hover .sender,
+div.line.text:hover .time,
+body[data-view-type="server"] .line:hover .message,
+body[data-view-type="server"] .line:hover .time {
+  /*background-color: #444;*/
+  color: #fff;
+}
+
+div.line.text[data-highlight="true"],
+div.line.text[data-highlight="true"] .time {
+  color: #fff;
+}
+
+div.line.text[data-highlight="true"] {
+  border: 1px solid #284e84;
+  border-left: none;
+  border-right: none;
+  outline: none;
+}
+
+div.line.text[data-highlight="true"]:hover {
+  border-color: #3069ab;
+}
+
+div.line.text[data-highlight="true"] + div.line.text[data-highlight="true"] {
+  border-top: none;
+}
+
+div.line.text[data-highlight="true"] .message,
+div.line.text[data-highlight="true"] .sender,
+div.line.text[data-highlight="true"] .time {
+  background-color: #1b3458;
+}
+
+div.line.text[data-highlight="true"]:hover .message,
+div.line.text[data-highlight="true"]:hover .sender,
+div.line.text[data-highlight="true"]:hover .time {
+  background-color: #204571;
+}
+
+/* Selected User */
+.sender {
+  cursor: pointer;
+}
+
+div.line[data-line-type="privmsg"]:not(.selectedUser),
+div.line[data-line-type="action"]:not(.selectedUser) {
+  transition-property: border-top, border-bottom, background-color;
+  transition-duration: 0.5s, 0.5s, 0.5s;
+}
+
+div.line[data-line-type="privmsg"] .time:not(.selectedUser),
+div.line[data-line-type="action"] .time:not(.selectedUser) {
+  transition: color 0.5s;
+}
+
+div.line.selectedUser[data-highlight="false"] .time {
+  transition: color 0.5s ease-in;
+  color: #fff;
+}
+
+div.line.selectedUser[data-highlight="false"] {
+  transition-property: color, border-top, border-bottom, background-color;
+  transition-duration: 0.5s, 0.5s, 0.5s, 0.5s;
+  color: #fff;
+  border: 1px solid #942f25;
+  border-left: none;
+  border-right: none;
+  outline: none;
+}
+
+div.line.selectedUser[data-highlight="false"]:hover {
+  border-color: #aa362b;
+}
+
+div.line.selectedUser[data-highlight="false"] + div.line.selectedUser[data-highlight="false"] {
+  border-top: none;
+}
+
+div.line.selectedUser[data-highlight="false"] .message,
+div.line.selectedUser[data-highlight="false"] .sender,
+div.line.selectedUser[data-highlight="false"] .time {
+  background-color: #521e17;
+}
+
+div.line.selectedUser[data-highlight="false"]:hover .message,
+div.line.selectedUser[data-highlight="false"]:hover .sender,
+div.line.selectedUser[data-highlight="false"]:hover .time {
+  background-color: #68271d;
+}
+
+/* Remember Line */
+#mark {
+  border-bottom: 1px dotted #9f9f9f;
+  margin: 1px 0;
+  -webkit-transition: 0.2s linear;
+}
+
+/* Loading Screen */
+#loadingScreen {
+  position: absolute;
+  top: 45%;
+  left: calc(50% - (320px / 2)); /* half of width + padding */
+  width: 300px;
+  font-size: 18px;
+  background: #1c1f26;
+  border: 0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  opacity: 1;
+  -webkit-transition: opacity 0.8s linear;
+}
+
+/* Topic Bar */
+#topicBar {
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 400;
+  opacity: 1 !important;
+  color: #aaa;
+  position: fixed;
+  padding: 6px 12px;
+  box-shadow: none;
+  border: 0;
+  text-shadow: none;
+  background: #15171c;
+  font-size: .8rem;
+  font-weight: 600;
+  text-align: center;
+  -webkit-transition: opacity 0.8s linear;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+#topicBar a,
+#topicBar span.channel {
+  color: #f5f5f5;
+  border-color: #f5f5f5;
+  text-shadow: 1px 1px rgba(10, 10, 10, 0.7);
+}
+
+/* Scrolling */
+body[data-custom-scroller="true"]::-webkit-scrollbar {
+  width: 17px;
+}
+
+body[data-custom-scroller="true"]::-webkit-scrollbar:horizontal {
+  height: 0;
+}
+
+body[data-custom-scroller="true"]::-webkit-scrollbar-track {
+  background: #393939;
+  box-shadow: inset 1px 0px 0px 0px #4b4b4b;
+}
+
+body[data-custom-scroller="true"]::-webkit-scrollbar-thumb {
+  background-color: #7c7c7c;
+  border: 4px solid transparent;
+  border-left: 5px solid transparent;
+  border-radius: 20px;
+  background-clip: content-box;
+}
+
+body[data-custom-scroller="true"]::-webkit-scrollbar-thumb:hover {
+  background-color: #b0b0b0;
+}
+
+/* Message buffer loading animation */
+.message_buffer_loading_indicator {
+  text-align: center;
+  height: 42px;
+}
+
+.message_buffer_loading_indicator span {
+  font-family: Optima !important;
+  font-size: 35px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  line-height: 43px;
+  color: #797979;
+  -webkit-animation: ellipsis-period 1.5s infinite;
+  animation: ellipsis-period 1.5s infinite;
+}
+
+.message_buffer_loading_indicator span:nth-child(1) {
+  -webkit-animation-delay: 0.0s;
+  animation-delay: 0.0s;
+}
+
+.message_buffer_loading_indicator span:nth-child(2) {
+  -webkit-animation-delay: 0.1s;
+  animation-delay: 0.1s;
+}
+
+.message_buffer_loading_indicator span:nth-child(3) {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+
+@keyframes ellipsis-period {
+  0% {
+    opacity: 0.2;
+  }
+
+  20% {
+    opacity: 1.0;
+  }
+
+  100% {
+    opacity: 0.2;
+  }
+}
+
+/* Message buffer session indicator */
+.date_indicator,
+.session_indicator {
+  display: flex;
+  display: -webkit-flex;
+  padding: 0.5em 0;
+}
+
+.date_indicator > hr,
+.session_indicator > hr {
+  background: #444;
+  border: 0;
+  height: 1px;
+  margin-top: 0.6em;
+  flex: 1;
+  -webkit-flex: 1;
+}
+
+.date_indicator > span,
+.session_indicator > span {
+  font-style: oblique;
+  margin: 0 1em;
+  color: #919191;
+}
+
+.date_indicator + #mark,
+.session_indicator + #mark {
+  display: none;
+}
+
+/* Nickname Colors */
+data.line.text .sender[data-member-type="myself"] {
+  color: #ff8c00;
+}
+
+div.line[data-line-type="join"],
+div.line[data-line-type="part"], 0
+div.line[data-line-type="kick"],
+div.line[data-line-type="quit"],
+div.line[data-line-type="kill"],
+div.line[data-line-type="nick"],
+div.line[data-line-type="mode"],
+div.line[data-line-type="topic"],
+div.line[data-line-type="website"] {
+  padding: 0 5px 0 5px;
+  color: #666;
+  margin-right: 5px;
+}
+
+div.line[data-line-type="join"] .time,
+div.line[data-line-type="part"] .time,
+div.line[data-line-type="kick"] .time,
+div.line[data-line-type="quit"] .time,
+div.line[data-line-type="kill"] .time,
+div.line[data-line-type="nick"] .time,
+div.line[data-line-type="mode"] .time,
+div.line[data-line-type="topic"] .time,
+div.line[data-line-type="website"] .time,
+div.line[data-line-type="join"] .sender,
+div.line[data-line-type="part"] .sender,
+div.line[data-line-type="kick"] .sender,
+div.line[data-line-type="quit"] .sender,
+div.line[data-line-type="kill"] .sender,
+div.line[data-line-type="nick"] .sender,
+div.line[data-line-type="mode"] .sender,
+div.line[data-line-type="topic"] .sender,
+div.line[data-line-type="website"] .sender,
+div.line[data-line-type="join"] .message,
+div.line[data-line-type="part"] .message,
+div.line[data-line-type="kick"] .message,
+div.line[data-line-type="quit"] .message,
+div.line[data-line-type="kill"] .message,
+div.line[data-line-type="nick"] .message,
+div.line[data-line-type="mode"] .message,
+div.line[data-line-type="topic"] .message,
+div.line[data-line-type="website"] .message {
+  padding: 2px 8px;
+}
+
+body[dir="ltr"] div.line[data-line-type="join"] .message:before {
+  content: "→ ";
+  color: #0c0;
+  /* margin-right: 0.4em; */
+}
+
+body[dir="ltr"] div.line[data-line-type="kick"] .message:before,
+body[dir="ltr"] div.line[data-line-type="part"] .message:before,
+body[dir="ltr"] div.line[data-line-type="quit"] .message:before {
+  content: "← ";
+  color: #e00;
+  /* margin-right: 0.4em; */
+}
+
+body[dir="ltr"] div.line[data-line-type="nick"] .message:before {
+  content: " • ";
+  color: #0c0;
+  /* margin-right: 0.4em; */
+}
+
+body[dir="rtl"] div.line[data-line-type="join"] .message:before {
+  content: "→ ";
+  color: #0c0;
+  /* margin-left: 0.4em; */
+}
+
+body[dir="rtl"] div.line[data-line-type="kick"] .message:before,
+body[dir="rtl"] div.line[data-line-type="part"] .message:before,
+body[dir="rtl"] div.line[data-line-type="quit"] .message:before {
+  content: "← ";
+  color: #e00;
+  /* margin-left: 0.4em; */
+}
+
+body[dir="rtl"] div.line[data-line-type="nick"] .message:before {
+  content: " • ";
+  color: #0c0;
+  /* margin-left: 0.4em; */
+}
